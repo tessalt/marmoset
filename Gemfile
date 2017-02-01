@@ -34,6 +34,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'jwt'
 gem "figaro"
+gem 'pry'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
