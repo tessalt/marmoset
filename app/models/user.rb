@@ -1,6 +1,7 @@
 VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 class User < ApplicationRecord
+  has_many :lists
   before_save {self.email = email.downcase}
   validates :email, presence: true,
     uniqueness: {case_sensitive: false},
