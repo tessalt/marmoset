@@ -12,7 +12,7 @@ class ListsTest < ActionDispatch::IntegrationTest
 
   test "unauthenticated create" do
     assert_no_difference 'List.count' do
-      post user_lists_path(user_id: @user.id), params: {
+      post lists_path, params: {
         list: {
           name: "lol",
         }
@@ -23,7 +23,7 @@ class ListsTest < ActionDispatch::IntegrationTest
 
   test "authenticated create" do
     assert_difference 'List.count', 1 do
-      post user_lists_path(user_id: @user.id), params: {
+      post lists_path(user_id: @user.id), params: {
         list: {
           name: "lol",
         }
@@ -35,7 +35,9 @@ class ListsTest < ActionDispatch::IntegrationTest
   end
 
   test "show lists" do
-    get user_list_path(user_id: @user.id, id: @list.id)
+    get list_path(id: @list.id), nil, {
+        authorization: "Bearer #{@jwt}"
+    }
     assert_response :success
   end
 end

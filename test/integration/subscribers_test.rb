@@ -12,7 +12,7 @@ class SubscribersTest < ActionDispatch::IntegrationTest
 
   test "unauthenticated create" do
     assert_no_difference 'Subscriber.count' do
-      post user_list_subscribers_path(user_id: @user.id, list_id: @list.id), params: {
+      post list_subscribers_path(user_id: @user.id, list_id: @list.id), params: {
         subscriber: {
           email: "lol@lol.com",
         }
@@ -23,7 +23,7 @@ class SubscribersTest < ActionDispatch::IntegrationTest
 
   test "authenticated create" do
     assert_difference 'Subscriber.count', 1 do
-      post user_list_subscribers_path(user_id: @user.id, list_id: @list.id), params: {
+      post list_subscribers_path(user_id: @user.id, list_id: @list.id), params: {
         subscriber: {
           email: "lol@lol.com",
         }
@@ -35,7 +35,7 @@ class SubscribersTest < ActionDispatch::IntegrationTest
   end
 
   test "show subscribers" do
-    get user_list_subscribers_path(user_id: @user.id, list_id: @list.id)
+    get list_subscribers_path(user_id: @user.id, list_id: @list.id)
     assert_response :success
   end
 end

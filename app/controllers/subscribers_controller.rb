@@ -1,6 +1,6 @@
 class SubscribersController < ApplicationController
   def create
-    @subscriber = current_user.lists.find(params[:list_id]).subscribers.build(subscriber_params)
+    @subscriber = list.subscribers.build(subscriber_params)
     if @subscriber.save
       render json: @subscriber
     else
@@ -9,7 +9,7 @@ class SubscribersController < ApplicationController
   end
 
   def index
-    @subscribers = current_user.lists.find(params[:list_id]).subscribers
+    @subscribers = list.subscribers
     render json: @subscribers
   end
 
@@ -17,5 +17,11 @@ class SubscribersController < ApplicationController
 
   def subscriber_params
     params.require(:subscriber).permit(:email)
+  end
+
+  private
+
+  def list
+    current_user.lists.find(params[:list_id])
   end
 end
