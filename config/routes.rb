@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   post '/login', to: "sessions#create"
 
   resources :users do
-    resources :lists
+    resources :lists do
+      resources :subscribers
+    end
   end
 end
