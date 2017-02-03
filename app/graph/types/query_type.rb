@@ -13,7 +13,10 @@ QueryType = GraphQL::ObjectType.define do
     type ListType
     argument :id, types.ID
     resolve -> (obj, args, ctx) do
-      ctx[:current_user].lists.find(args[:id])
+      type, id = GraphQL::Schema::UniqueWithinType.decode(args[:id])
+      ctx[:current_user].lists.find(id)
     end
   end
+
+  field :node, GraphQL::Relay::Node.field
 end

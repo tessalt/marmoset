@@ -1,6 +1,12 @@
 ListType = GraphQL::ObjectType.define do
   name 'List'
-  field :id, !types.ID
+  interfaces [GraphQL::Relay::Node.interface]
+  global_id_field :id
+
   field :name, !types.String
-  field :subscribers, types[SubscriberType]
+  connection :subscribers, SubscriberType.connection_type do
+    resolve -> (object, args, ctx) {
+      object.subscribers
+    }
+  end
 end
