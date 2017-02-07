@@ -38,6 +38,7 @@ gem 'pry'
 gem 'graphql'
 gem "graphiql-rails"
 # Use Capistrano for deployment
+gem 'sprockets-commoner'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
