@@ -7,21 +7,27 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if auth_present?
-      user = User.find(auth["user"])
-      if user
-        @current_user ||= user
+      if auth_payload["user"]
+        user = User.find(auth_payload["user"])
+        if user
+          @current_user ||= user
+        end
       end
     end
   end
 
   def authenticate
-    render json: {error: "unauthorized"}, stauts: 401 unless logged_in?
+    begin
+      render json: {error: "unauthorized"}, stauts: 401 unless logged_in?
+    rescue JWT::ExpiredSignature
+      render json: {error: "expired"}, stauts: 401
+    end
   end
 
   private
 
-  def auth
-    Auth.decode(token)
+  def auth_payload
+    Auth.decode(token).fetch("data")
   end
 
   def token

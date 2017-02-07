@@ -5,7 +5,10 @@ class Auth
 
   def self.issue(payload)
     JWT.encode(
-      payload,
+      {
+        data: payload,
+        exp: expiry
+      },
       auth_secret,
       ALGORITHM
     )
@@ -18,6 +21,10 @@ class Auth
       true,
       {algorithm: ALGORITHM}
     ).first
+  end
+
+  def self.expiry
+    Time.now.to_i + 60 * 5
   end
 
   def self.auth_secret
