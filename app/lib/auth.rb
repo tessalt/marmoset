@@ -24,7 +24,7 @@ class Auth
   end
 
   def self.expiry
-    Time.now.to_i + 60 * 5
+    Time.now.to_i + 3660 * 5
   end
 
   def self.auth_secret

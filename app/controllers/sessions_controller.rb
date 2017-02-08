@@ -6,7 +6,8 @@ class SessionsController < ApplicationController
     if user
       if user.authenticate(auth_params[:password])
         jwt = Auth.issue({user: user.id})
-        render json: {jwt: jwt}
+        cookies['_graphql_token'] = jwt
+        render json: {user: user}
       else
         render json: {error: "invalid"}, status: 401
       end

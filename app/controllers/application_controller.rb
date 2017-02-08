@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    if auth_present?
+    if token
       if auth_payload["user"]
         user = User.find(auth_payload["user"])
         if user
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def token
-    request.env["HTTP_AUTHORIZATION"].scan(/Bearer(.*)$/).flatten.last.lstrip
+    request.cookies['_graphql_token']
   end
 
   def auth_present?
