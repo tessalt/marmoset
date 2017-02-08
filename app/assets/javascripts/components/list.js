@@ -2,11 +2,25 @@ import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
+const Subscribers = (props) => {
+  const subscribersList = props.subscribers.edges.map((subscriber, key) => {
+    return (
+      <p key={key}>{subscriber.node.email}</p>
+    )
+  });
+  return (
+    <ul>{subscribersList}</ul>
+  )
+}
+
 const List = (props) => {
   return (
     <div>
       {!props.data.loading &&
-        <h2>{props.data.list.name}</h2>
+        <div>
+          <h2>{props.data.list.name}</h2>
+          <Subscribers {...props.data.list} />
+        </div>
       }
     </div>
   )
@@ -23,7 +37,15 @@ const ListQuery = gql`
   query List($list: ID!){
     list(id: $list) {
       id,
-      name
+      name,
+      subscribers {
+        edges {
+          node {
+            email,
+            id
+          }
+        }
+      }
     }
   }
 `
