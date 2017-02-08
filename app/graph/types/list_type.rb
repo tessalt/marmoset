@@ -9,4 +9,7 @@ ListType = GraphQL::ObjectType.define do
       object.subscribers
     }
   end
+  field :errors, types[types.String], "Reasons the object couldn't be created or updated" do
+    resolve ->(obj, args, ctx) { obj.errors.full_messages }
+  end
 end
