@@ -13,7 +13,7 @@ const networkInterface = createNetworkInterface({
   uri: '/graphql',
   opts: {
     credentials: 'same-origin',
-  }
+  },
 });
 
 const client = new ApolloClient({networkInterface});

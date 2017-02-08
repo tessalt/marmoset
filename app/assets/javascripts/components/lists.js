@@ -43,8 +43,8 @@ class Lists extends React.Component {
           name
         }
       }
-    }).then((data) => {
-      this.props.router.replace(`/lists/${data.createList.list.id}`)
+    }).then((response) => {
+      this.props.router.replace(`/lists/${response.data.createList.list.id}`)
     });
   }
   render() {
