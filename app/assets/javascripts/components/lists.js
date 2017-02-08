@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import List from './list';
+import { Link } from 'react-router'
 
 class NewList extends React.Component {
   handleSubmit(event) {
@@ -33,7 +33,6 @@ const submitList = gql`
   }
 `
 
-
 const listQuery = gql`query Lists { lists { id, name }  }`
 
 class Lists extends React.Component {
@@ -45,7 +44,7 @@ class Lists extends React.Component {
         }
       }
     }).then((data) => {
-        console.log(data);
+      this.props.router.replace(`/lists/${data.createList.list.id}`)
     });
   }
   render() {
@@ -56,7 +55,7 @@ class Lists extends React.Component {
         { this.props.data.loading
           ? 'loading'
           : this.props.data.lists.map((list, key) => {
-            return <List key={key} {...list} />
+            return <h2 key={key}><Link to={`/lists/${list.id}`}> {list.name} </Link></h2>
           })
         }
       </div>
