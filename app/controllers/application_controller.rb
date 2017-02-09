@@ -6,12 +6,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    if token
-      if auth_payload["user"]
-        user = User.find(auth_payload["user"])
-        if user
-          @current_user ||= user
-        end
+    if token && auth_payload["user"]
+      user = User.find(auth_payload["user"])
+      if user
+        @current_user ||= user
       end
     end
   end

@@ -16,6 +16,18 @@ const networkInterface = createNetworkInterface({
   },
 });
 
+networkInterface.useAfter([
+  {
+    applyAfterware({response}, next) {
+      if (response.status === 401) {
+        window.location.replace('/login');
+      } else {
+        next();
+      }
+    }
+  }
+])
+
 const client = new ApolloClient({networkInterface});
 
 ReactDOM.render((
