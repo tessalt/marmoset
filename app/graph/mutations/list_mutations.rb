@@ -47,7 +47,7 @@ class ListMutations
       list.destroy
 
       {
-        user: user
+        deltedListId: inputs[:id]
       }
     }
   end

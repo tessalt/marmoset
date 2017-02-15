@@ -33,11 +33,33 @@ const submitList = gql`
   }
 `
 
+const destroyList = gql`
+  mutation destroyList($list: DestroyListInput!) {
+    destroyList(input: $list) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 const listQuery = gql`query Lists { lists { id, name }  }`
+
+const ListLink = (props) => {
+  function onDeleteClick() {
+    props.onDeleteClick(props.id);
+  }
+  return (
+    <div>
+      <h2><Link to={`/lists/${props.id}`}> {props.name} </Link></h2>
+      <button onClick={onDeleteClick}>Delete</button>
+    </div>
+  )
+}
 
 class Lists extends React.Component {
   createNewList(name) {
-    this.props.mutate({
+    this.props.createList({
       variables: {
         list: {
           name
@@ -47,6 +69,15 @@ class Lists extends React.Component {
       this.props.router.replace(`/lists/${response.data.createList.list.id}`)
     });
   }
+  destroyList(id) {
+    this.props.destroyList({
+      variables: {
+        list: {
+          id,
+        }
+      }
+    })
+  }
   render() {
     return (
       <div>
@@ -55,7 +86,7 @@ class Lists extends React.Component {
         { this.props.data.loading
           ? 'loading'
           : this.props.data.lists.map((list, key) => {
-            return <h2 key={key}><Link to={`/lists/${list.id}`}> {list.name} </Link></h2>
+            return <ListLink key={key} {...list} onDeleteClick={this.destroyList.bind(this)}/>
           })
         }
       </div>
@@ -68,11 +99,33 @@ Lists.propTypes = {
     loading: PropTypes.bool.isRequired,
     lists: PropTypes.array
   }),
-  mutate: PropTypes.func.isRequired
+  createList: PropTypes.func.isRequired,
+  destroyList: PropTypes.func.isRequired,
 }
 
 export default compose(
   graphql(listQuery),
-  graphql(submitList)
+  graphql(destroyList, {
+    name: 'destroyList',
+    props({ownProps, mutate}) {
+      return {
+        destroyList: (props) => {
+          return mutate({
+            variables: props.variables,
+            updateQueries: {
+              Lists: (prev, {mutationResult}) => {
+                return update(prev, {
+                  lists: {
+                  }
+                });
+              }
+            }
+          })
+        }
+      }
+    }
+  }),
+  graphql(submitList, {
+    name: 'createList'
+  }),
 )(Lists)
-
