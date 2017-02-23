@@ -22,7 +22,6 @@ class UsersTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
     assert_equal "foo@lol.com", response.parsed_body["user"]["email"]
-    assert response.parsed_body["jwt"]
   end
 
   test "invalid signup" do
@@ -58,8 +57,6 @@ class UsersTest < ActionDispatch::IntegrationTest
         email: "fool@lol.com",
         password: "testlol",
       }
-    }, headers: {
-      authorization: "Bearer #{@jwt}"
     }
     assert_response :success
   end
@@ -70,10 +67,7 @@ class UsersTest < ActionDispatch::IntegrationTest
   end
 
   test "authenticated destroy" do
-    delete user_path(id: @user.id), params: {
-    }, headers: {
-      authorization: "Bearer #{@jwt}"
-    }
+    delete user_path(id: @user.id)
     assert_response :success
   end
 end

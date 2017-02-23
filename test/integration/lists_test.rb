@@ -22,22 +22,20 @@ class ListsTest < ActionDispatch::IntegrationTest
   end
 
   test "authenticated create" do
+    cookies['_graphql_token'] = @jwt
     assert_difference 'List.count', 1 do
       post lists_path(user_id: @user.id), params: {
         list: {
           name: "lol",
         }
-      }, headers: {
-        authorization: "Bearer #{@jwt}"
       }
     end
     assert_response :success
   end
 
   test "show lists" do
-    get list_path(id: @list.id), nil, {
-      authorization: "Bearer #{@jwt}"
-    }
+    cookies['_graphql_token'] = @jwt
+    get list_path(id: @list.id)
     assert_response :success
   end
 end

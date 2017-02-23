@@ -22,6 +22,7 @@ class SubscribersTest < ActionDispatch::IntegrationTest
   end
 
   test "authenticated create" do
+    cookies['_graphql_token'] = @jwt
     assert_difference 'Subscriber.count', 1 do
       post list_subscribers_path(user_id: @user.id, list_id: @list.id), params: {
         subscriber: {
