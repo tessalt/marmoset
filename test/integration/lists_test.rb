@@ -36,7 +36,7 @@ class ListsTest < ActionDispatch::IntegrationTest
 
   test "show lists" do
     get list_path(id: @list.id), nil, {
-        authorization: "Bearer #{@jwt}"
+      authorization: "Bearer #{@jwt}"
     }
     assert_response :success
   end
