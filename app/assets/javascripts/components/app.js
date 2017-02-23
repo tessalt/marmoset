@@ -10,10 +10,9 @@ export default class App extends React.Component {
     return (
       <div>
         <ul>
-          <li>
-              <Link to="/login">Sign in</Link>
-          </li>
-          <li><Link to="/lists">Lists</Link> (authenticated)</li>
+          <li><Link to="/login">Log in</Link></li>
+          <li><Link to="/signup">Sign up</Link></li>
+          <li><Link to="/lists">Lists</Link></li>
         </ul>
         {this.props.children}
       </div>

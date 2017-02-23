@@ -8,6 +8,7 @@ import Lists from './components/lists';
 import List from './components/list';
 import App from './components/app';
 import Login from './components/login';
+import Signup from './components/signup';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -35,6 +36,7 @@ ReactDOM.render((
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <Route path="login" component={Login} />
+        <Route path="signup" component={Signup} />
         <Route path="lists" component={Lists} />
         <Route path="lists/:id" component={List} />
       </Route>

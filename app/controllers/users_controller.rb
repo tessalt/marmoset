@@ -10,7 +10,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       jwt = Auth.issue({user: @user.id})
-      render json: {user: @user, jwt: jwt}
+      cookies['_graphql_token'] = jwt
+      render json: {user: @user}
     else
       render json: {errors: @user.errors}, status: 400
     end

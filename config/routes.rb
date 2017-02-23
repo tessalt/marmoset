@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     post '/', to: 'graphql#create'
   end
 
-  namespace :api do
+  scope '/api' do
     resources :users
     resources :lists do
       resources :subscribers
