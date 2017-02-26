@@ -9,6 +9,7 @@ import List from './components/list';
 import App from './components/app';
 import Login from './components/login';
 import Signup from './components/signup';
+import Compose from './components/compose';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -38,7 +39,8 @@ ReactDOM.render((
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route path="lists" component={Lists} />
-        <Route path="lists/:id" component={List} />
+        <Route path="lists/:id" component={List}/>
+        <Route path="lists/:list_id/compose" component={Compose}/>
       </Route>
     </Router>
   </ApolloProvider>

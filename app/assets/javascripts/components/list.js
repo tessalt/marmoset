@@ -2,60 +2,20 @@ import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import update from 'immutability-helper';
+import { Link } from 'react-router'
+import SubscriberForm from './subscriber-form';
+import {createSubscriber} from '../mutations/subscriber';
+import {showList} from '../queries/list';
 
-const ListErrors = (props) => {
-  if (!props.errors || !props.errors.length) {
-    return null;
-  }
-  const errors = props.errors.map((error, key) => {
+const Letters = (props) => {
+  const lettersList = props.letters.edges.map((letter, key) => {
     return (
-      <p key={key}>{error}</p>
+      <p key={key}>{letter.node.subject}</p>
     )
   });
   return (
-    <div>
-      <h4>errors</h4>
-      {errors}
-    </div>
+    <ul>{lettersList}</ul>
   )
-}
-
-
-class NewSubscriber extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errors: []
-    }
-  }
-  handleSubmit(event) {
-    event.preventDefault()
-    this.props.onSubmit(this.refs.email.value).then((errors) => {
-      if (errors.length) {
-        this.setState({
-          errors,
-        });
-      } else {
-        this.setState({
-          errors: [],
-        });
-        this.refs.email.value = '';
-      }
-    });
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label><input ref="email" placeholder="email" /></label>
-        <button type="submit">create</button>
-        <ListErrors errors={this.state.errors} />
-      </form>
-    )
-  }
-}
-
-NewSubscriber.propTypes = {
-  onSubmit: PropTypes.func.isRequired
 }
 
 const Subscribers = (props) => {
@@ -89,8 +49,12 @@ class List extends React.Component {
         {!this.props.data.loading &&
           <div>
             <h2>{this.props.data.list.name}</h2>
+            <Link to={`/lists/${this.props.data.list.id}/compose`}>Compose</Link>
+            <h3>Subscribers</h3>
             <Subscribers {...this.props.data.list} />
-            <NewSubscriber onSubmit={this.createSubscriber.bind(this)} />
+            <h3>Letters</h3>
+            <Letters {...this.props.data.list} />
+            <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
           </div>
         }
       </div>
@@ -106,38 +70,8 @@ List.propTypes = {
   submit: PropTypes.func.isRequired
 }
 
-const SubscriberMutation = gql`
-  mutation createSubscriber($subscriber: CreateSubscriberInput!) {
-    createSubscriber(input: $subscriber) {
-      subscriber {
-        id,
-        email,
-        errors
-      }
-    }
-  }
-`;
-
-const ListQuery = gql`
-  query List($list: ID!){
-    list(id: $list) {
-      errors,
-      id,
-      name,
-      subscribers {
-        edges {
-          node {
-            email,
-            id
-          }
-        }
-      }
-    }
-  }
-`
-
 const ListWithData = compose (
-  graphql(ListQuery, {
+  graphql(showList, {
     options: ({params}) => {
       return {
         variables: {
@@ -146,7 +80,7 @@ const ListWithData = compose (
       }
     }
   }),
-  graphql(SubscriberMutation, {
+  graphql(createSubscriber, {
     props({ownProps, mutate}) {
       return  {
         submit: (props) =>  {

@@ -5,14 +5,17 @@ export default class LetterForm extends React.Component {
     event.preventDefault()
     this.props.onSubmit({
       subject: this.refs.subject.value,
-      contents: this.refs.subject.contents,
+      contents: this.refs.contents.value,
     });
   }
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <label><input ref="subject" placeholder="subject" /></label>
-        <textarea ref="contents"></textarea>
+        <label>Subject</label>
+        <input ref="subject" placeholder="subject" />
+        <div>
+          <textarea ref="contents"></textarea>
+        </div>
         <button type="submit">create</button>
       </form>
     )

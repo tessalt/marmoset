@@ -2,48 +2,9 @@ import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Link } from 'react-router'
-
-class NewList extends React.Component {
-  handleSubmit(event) {
-    event.preventDefault()
-    this.props.onSubmit(this.refs.name.value);
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label><input ref="name" placeholder="name" /></label>
-        <button type="submit">create</button>
-      </form>
-    )
-  }
-}
-
-NewList.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-}
-
-const submitList = gql`
-  mutation createList($list: CreateListInput!) {
-    createList(input: $list) {
-      list {
-        name,
-        id
-      }
-    }
-  }
-`
-
-const destroyList = gql`
-  mutation destroyList($list: DestroyListInput!) {
-    destroyList(input: $list) {
-      user {
-        id
-      }
-    }
-  }
-`;
-
-const listQuery = gql`query Lists { lists { id, name }  }`
+import {indexLists} from '../queries/list';
+import {createList, destroyList} from '../mutations/list';
+import ListForm from './list-form';
 
 const ListLink = (props) => {
   function onDeleteClick() {
@@ -82,7 +43,7 @@ class Lists extends React.Component {
     return (
       <div>
         <h1>Lists</h1>
-        <NewList onSubmit={this.createNewList.bind(this)}/>
+        <ListForm onSubmit={this.createNewList.bind(this)}/>
         { this.props.data.loading
           ? 'loading'
           : this.props.data.lists.map((list, key) => {
@@ -104,7 +65,7 @@ Lists.propTypes = {
 }
 
 export default compose(
-  graphql(listQuery),
+  graphql(indexLists),
   graphql(destroyList, {
     name: 'destroyList',
     props({ownProps, mutate}) {
@@ -125,7 +86,7 @@ export default compose(
       }
     }
   }),
-  graphql(submitList, {
+  graphql(createList, {
     name: 'createList'
   }),
 )(Lists)
