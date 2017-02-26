@@ -26,6 +26,12 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: 'key-5742ee10ba80210da5e2636d7a75b506',
+    domain: 'https://api.mailgun.net/v3/sandboxfab813ed3bc04d258f6abed5160e37d4.mailgun.org'
+  }
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 

@@ -10,7 +10,7 @@ import {showList} from '../queries/list';
 const Letters = (props) => {
   const lettersList = props.letters.edges.map((letter, key) => {
     return (
-      <p key={key}>{letter.node.subject}</p>
+      <li key={key}><Link to={`/lists/${props.id}/letters/${letter.node.id}/edit`}>{letter.node.subject}</Link></li>
     )
   });
   return (

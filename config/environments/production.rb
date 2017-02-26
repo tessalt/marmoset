@@ -51,6 +51,13 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  #
+
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: 'key-5742ee10ba80210da5e2636d7a75b506',
+    domain: 'https://api.mailgun.net/v3/mg.marmoset-mail.com'
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque

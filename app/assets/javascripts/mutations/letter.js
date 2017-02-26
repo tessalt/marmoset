@@ -13,6 +13,21 @@ const createLetter = gql`
   }
 `;
 
+const updateLetter = gql`
+  mutation updateLetter($letter: UpdateLetterInput!) {
+    updateLetter(input: $letter) {
+      letter {
+        id,
+        sent,
+        subject,
+        contents,
+        errors
+      }
+    }
+  }
+`;
+
 export {
-  createLetter
+  createLetter,
+  updateLetter,
 }

@@ -12,11 +12,11 @@ export default class LetterForm extends React.Component {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
         <label>Subject</label>
-        <input ref="subject" placeholder="subject" />
+        <input ref="subject" placeholder="subject" defaultValue={this.props.letter ? this.props.letter.subject : ''} />
         <div>
-          <textarea ref="contents"></textarea>
+          <textarea ref="contents" defaultValue={this.props.letter ? this.props.letter.contents : ''}></textarea>
         </div>
-        <button type="submit">create</button>
+        <button type="submit">{this.props.action}</button>
       </form>
     )
   }

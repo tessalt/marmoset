@@ -22,7 +22,7 @@ class Compose extends React.Component {
     return (
       <div>
         <h2>Compose</h2>
-        <LetterForm onSubmit={this.createLetter.bind(this)}/>
+        <LetterForm onSubmit={this.createLetter.bind(this)} action="create"/>
       </div>
     )
   }
