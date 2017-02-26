@@ -6,7 +6,7 @@ class ListMailer < ApplicationMailer
     mail(
       to: @list.subscribers.pluck(:email),
       subject: @letter.subject,
-      from: @user.email
+      from: 'tessathornton@gmail.com'
     )
   end
 end

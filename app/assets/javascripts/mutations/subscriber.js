@@ -12,6 +12,17 @@ const createSubscriber = gql`
   }
 `;
 
+const destroySubscriber = gql`
+  mutation destroySubscriber($subscriber: DestroySubscriberInput!) {
+    destroySubscriber(input: $subscriber) {
+      list {
+        id
+      }
+    }
+  }
+`;
+
 export {
-  createSubscriber
+  createSubscriber,
+  destroySubscriber,
 }

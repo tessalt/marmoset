@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import update from 'immutability-helper';
 import { Link } from 'react-router'
 import SubscriberForm from './subscriber-form';
-import {createSubscriber} from '../mutations/subscriber';
+import {createSubscriber, destroySubscriber} from '../mutations/subscriber';
 import {showList} from '../queries/list';
 
 const Letters = (props) => {
@@ -20,8 +20,14 @@ const Letters = (props) => {
 
 const Subscribers = (props) => {
   const subscribersList = props.subscribers.edges.map((subscriber, key) => {
+    function onDelete() {
+      props.onDelete(subscriber.node.id);
+    }
     return (
-      <p key={key}>{subscriber.node.email}</p>
+      <div key={key}>
+        <p>{subscriber.node.email}</p>
+        <button onClick={onDelete}>Delete</button>
+      </div>
     )
   });
   return (
@@ -43,6 +49,16 @@ class List extends React.Component {
     })
   }
 
+  deleteSubscriber(id) {
+    return this.props.destroySubscriber({
+      variables: {
+        subscriber: {
+          id,
+        }
+      }
+    })
+  }
+
   render() {
     return (
       <div>
@@ -51,7 +67,7 @@ class List extends React.Component {
             <h2>{this.props.data.list.name}</h2>
             <Link to={`/lists/${this.props.data.list.id}/compose`}>Compose</Link>
             <h3>Subscribers</h3>
-            <Subscribers {...this.props.data.list} />
+            <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
             <h3>Letters</h3>
             <Letters {...this.props.data.list} />
             <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
@@ -79,6 +95,9 @@ const ListWithData = compose (
         }
       }
     }
+  }),
+  graphql(destroySubscriber, {
+    name: 'destroySubscriber'
   }),
   graphql(createSubscriber, {
     props({ownProps, mutate}) {

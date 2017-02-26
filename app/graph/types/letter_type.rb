@@ -7,7 +7,7 @@ LetterType = GraphQL::ObjectType.define do
   field :subject, !types.String
   field :contents, !types.String
   field :sent, !types.Boolean
-  field :listId do
+  field :list_id do
     type types.ID
     resolve -> (obj, args, ctx) do
       GraphQL::Schema::UniqueWithinType.encode(ListType.name, obj.list_id)

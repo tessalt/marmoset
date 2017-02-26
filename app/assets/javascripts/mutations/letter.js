@@ -27,7 +27,22 @@ const updateLetter = gql`
   }
 `;
 
+const sendLetter = gql`
+  mutation sendLetter($letter: SendLetterInput!) {
+    sendLetter(input: $letter) {
+      letter {
+        id,
+        sent,
+        subject,
+        contents,
+        errors
+      }
+    }
+  }
+`;
+
 export {
   createLetter,
   updateLetter,
+  sendLetter,
 }

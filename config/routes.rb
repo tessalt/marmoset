@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     resources :users
     resources :lists do
       resources :subscribers
-      resources :letters
+      resources :letters do
+        get 'send'
+      end
     end
   end
   get "*path", to:"client#index"

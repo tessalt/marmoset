@@ -10,4 +10,5 @@ MutationType = GraphQL::ObjectType.define do
   field :createLetter, field: LetterMutations::Create.field
   field :updateLetter, field: LetterMutations::Update.field
   field :destroyLetter, field: LetterMutations::Destroy.field
+  field :sendLetter, field: LetterMutations::Send.field
 end

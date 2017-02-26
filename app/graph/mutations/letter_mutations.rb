@@ -60,4 +60,22 @@ class LetterMutations
       }
     }
   end
+
+  Send = GraphQL::Relay::Mutation.define do
+    name "SendLetter"
+    input_field :id, !types.ID
+    input_field :list_id, !types.ID
+    return_field :letter, LetterType
+
+    resolve -> (object, inputs, ctx) {
+      user = ctx[:current_user]
+      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
+      letter = Letter.find(id)
+      ListMailer.letter(letter).deliver_now
+
+      {
+        letter: letter
+      }
+    }
+  end
 end

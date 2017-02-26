@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import LetterForm from './letter-form';
-import {updateLetter} from '../mutations/letter';
+import {updateLetter, sendLetter} from '../mutations/letter';
 import {showLetter} from '../queries/letter';
 
 class Letter extends React.Component {
   updateLetter(letter) {
-    this.props.mutate({
+    this.props.updateLetter({
       variables: {
         letter: {
           id: this.props.params.id,
@@ -18,13 +18,27 @@ class Letter extends React.Component {
     });
   }
 
+  send() {
+    this.props.sendLetter({
+      variables: {
+        letter: {
+          id: this.props.params.id,
+          list_id: this.props.params.list_id
+        }
+      }
+    }).then((response) => {
+    });
+  }
+
   render() {
-    // console.log(this.props)
     return (
       <div>
         <h2></h2>
         {!this.props.data.loading &&
-          <LetterForm onSubmit={this.updateLetter.bind(this)} letter={this.props.data.letter} action="update"/>
+          <div>
+            <LetterForm onSubmit={this.updateLetter.bind(this)} letter={this.props.data.letter} action="update"/>
+            <button onClick={this.send.bind(this)} type="button">Send</button>
+          </div>
         }
       </div>
     )
@@ -32,7 +46,8 @@ class Letter extends React.Component {
 }
 
 Letter.propTypes = {
-  mutate: PropTypes.func.isRequired,
+  updateLetter: PropTypes.func.isRequired,
+  sendLetter: PropTypes.func.isRequired,
   data: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     letter: PropTypes.obj
@@ -40,7 +55,8 @@ Letter.propTypes = {
 }
 
 export default compose(
-  graphql(updateLetter),
+  graphql(updateLetter, {name: 'updateLetter'}),
+  graphql(sendLetter, {name: 'sendLetter'}),
   graphql(showLetter, {
     options: ({params}) => {
       return {

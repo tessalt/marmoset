@@ -33,20 +33,10 @@ class LettersController < ApplicationController
     render json: @letter
   end
 
-  def send
-    @letter = list.letters.find(params[:id])
-    ListMailer.letter(@letter)
-    if @letter.update_attributes(sent: true)
-      render json: @letter
-    else
-      render json: {errors: @letter.errors}, status: 400
-    end
-  end
-
   private
 
   def letter_params
-    params.require(:letter).permit(:subject, :contents))
+    params.require(:letter).permit(:subject, :contents)
   end
 
   def list

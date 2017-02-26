@@ -8,16 +8,19 @@ export default class LetterForm extends React.Component {
       contents: this.refs.contents.value,
     });
   }
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label>Subject</label>
-        <input ref="subject" placeholder="subject" defaultValue={this.props.letter ? this.props.letter.subject : ''} />
-        <div>
-          <textarea ref="contents" defaultValue={this.props.letter ? this.props.letter.contents : ''}></textarea>
-        </div>
-        <button type="submit">{this.props.action}</button>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>Subject</label>
+          <input ref="subject" placeholder="subject" defaultValue={this.props.letter ? this.props.letter.subject : ''} />
+          <div>
+            <textarea ref="contents" defaultValue={this.props.letter ? this.props.letter.contents : ''}></textarea>
+          </div>
+          <button type="submit">{this.props.action}</button>
+        </form>
+      </div>
     )
   }
 }
