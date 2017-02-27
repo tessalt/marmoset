@@ -8,7 +8,7 @@ import {createSubscriber, destroySubscriber} from '../mutations/subscriber';
 import {showList} from '../queries/list';
 
 const Letters = (props) => {
-  const lettersList = props.letters.edges.map((letter, key) => {
+  const lettersList = props.letters.map((letter, key) => {
     return (
       <li key={key}><Link to={`/lists/${props.id}/letters/${letter.node.id}/edit`}>{letter.node.subject}</Link></li>
     )
@@ -60,16 +60,28 @@ class List extends React.Component {
   }
 
   render() {
+    let sentLetters, drafts;
+    if (!this.props.data.loading) {
+      sentLetters = this.props.data.list.letters.edges.filter((edge) => {
+        return edge.node.sent;
+      });
+      drafts = this.props.data.list.letters.edges.filter((edge) => {
+        return !edge.node.sent;
+      });
+    }
+
     return (
       <div>
         {!this.props.data.loading &&
           <div>
             <h2>{this.props.data.list.name}</h2>
             <Link to={`/lists/${this.props.data.list.id}/compose`}>Compose</Link>
+            <h3>Sent</h3>
+            <Letters letters={sentLetters} />
+            <h3>Drafts</h3>
+            <Letters letters={drafts} />
             <h3>Subscribers</h3>
             <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
-            <h3>Letters</h3>
-            <Letters {...this.props.data.list} />
             <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
           </div>
         }

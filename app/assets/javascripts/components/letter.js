@@ -1,10 +1,18 @@
 import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import LetterForm from './letter-form';
+import Errors from './errors';
 import {updateLetter, sendLetter} from '../mutations/letter';
 import {showLetter} from '../queries/letter';
 
 class Letter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: ''
+    }
+  }
+
   updateLetter(letter) {
     this.props.updateLetter({
       variables: {
@@ -15,6 +23,11 @@ class Letter extends React.Component {
         }
       }
     }).then((response) => {
+      if (!response.data.updateLetter.letter.errors.length) {
+        this.setState({
+          message: 'successfully updated'
+        })
+      }
     });
   }
 
@@ -27,17 +40,24 @@ class Letter extends React.Component {
         }
       }
     }).then((response) => {
+      if (response.data.sendLetter.letter.sent) {
+        this.setState({
+          message: 'letter sent!'
+        });
+      }
     });
   }
 
   render() {
     return (
       <div>
-        <h2></h2>
         {!this.props.data.loading &&
           <div>
+            <h2>{this.props.data.letter.subject}</h2>
             <LetterForm onSubmit={this.updateLetter.bind(this)} letter={this.props.data.letter} action="update"/>
             <button onClick={this.send.bind(this)} type="button">Send</button>
+            <div>{this.state.message}</div>
+            <Errors errors={this.props.data.letter.errors} />
           </div>
         }
       </div>

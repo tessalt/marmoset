@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Errors = (props) => {
   if (!props.errors || !props.errors.length) {
     return null;

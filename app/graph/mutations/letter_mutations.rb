@@ -72,6 +72,7 @@ class LetterMutations
       type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
       letter = Letter.find(id)
       ListMailer.letter(letter).deliver_now
+      letter.update_attributes(sent: true)
 
       {
         letter: letter

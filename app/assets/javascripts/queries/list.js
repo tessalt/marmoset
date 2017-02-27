@@ -14,6 +14,7 @@ const showList = gql`
             subject,
             id,
             contents,
+            sent,
           }
         }
       },

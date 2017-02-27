@@ -8,6 +8,7 @@ const showLetter = gql`
       id,
       subject,
       contents,
+      sent,
     }
   }
 `
