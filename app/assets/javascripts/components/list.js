@@ -9,8 +9,9 @@ import {showList} from '../queries/list';
 
 const Letters = (props) => {
   const lettersList = props.letters.map((letter, key) => {
+    const path = `/lists/${letter.node.list_id}/letters/${letter.node.id}${letter.node.sent ? '' : '/edit'}`;
     return (
-      <li key={key}><Link to={`/lists/${props.id}/letters/${letter.node.id}/edit`}>{letter.node.subject}</Link></li>
+      <li key={key}><Link to={path}>{letter.node.subject}</Link></li>
     )
   });
   return (

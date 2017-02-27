@@ -11,6 +11,7 @@ const showList = gql`
       letters {
         edges {
           node {
+            list_id,
             subject,
             id,
             contents,
