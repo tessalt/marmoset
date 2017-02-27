@@ -98,18 +98,22 @@ const ListWithData = compose (
   }),
   graphql(destroySubscriber, {
     name: 'destroySubscriber',
-    props: ({ownProps, mutate}) => {
+    props: ({ownProps, destroySubscriber}) => {
       return {
         destroySubscriber: (props) => {
-          return mutate({
+          return destroySubscriber({
             variables: props.variables,
             updateQueries: {
               List: (prev, { mutationResult }) => {
+                const id = mutationResult.data.destroySubscriber.id;
+                const index = prev.list.subscribers.edges.findIndex((edge) => {
+                  return edge.node.id === id;
+                });
                 return update(prev, {
                   list: {
                     subscribers: {
                       edges: {
-
+                        $splice: [[index, 1]]
                       }
                     }
                   }

@@ -42,7 +42,7 @@ class SubscriberMutations
     name "DestroySubscriber"
     input_field :id, !types.ID
 
-    return_field :list, ListType
+    return_field :id, types.ID
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
@@ -52,7 +52,7 @@ class SubscriberMutations
       subscriber.destroy
 
       {
-        list: list
+        id: inputs[:id]
       }
     }
   end

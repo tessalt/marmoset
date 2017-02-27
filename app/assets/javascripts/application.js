@@ -35,8 +35,7 @@ networkInterface.useAfter([
 const client = new ApolloClient({
   networkInterface,
   dataIdFromObject: (o) => {
-    console.log(o);
-    return o.id
+    return o.id;
   }
 });
 
