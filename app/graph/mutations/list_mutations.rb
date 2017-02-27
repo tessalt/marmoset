@@ -38,7 +38,7 @@ class ListMutations
     name "DestroyList"
     input_field :id, !types.ID
 
-    return_field :deletedListId, types.ID
+    return_field :id, types.ID
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
@@ -47,7 +47,7 @@ class ListMutations
       list.destroy
 
       {
-        deltedListId: inputs[:id]
+        id: inputs[:id]
       }
     }
   end

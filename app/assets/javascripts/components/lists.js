@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Link } from 'react-router'
+import update from 'immutability-helper';
 import {indexLists} from '../queries/list';
 import {createList, destroyList} from '../mutations/list';
 import ListForm from './list-form';
@@ -37,7 +38,9 @@ class Lists extends React.Component {
           id,
         }
       }
-    })
+    }).then(() => {
+      // this.props.data.refetch();
+    });
   }
   render() {
     return (
@@ -65,18 +68,25 @@ Lists.propTypes = {
 }
 
 export default compose(
-  graphql(indexLists),
+  graphql(indexLists, {
+    forceFetch: true
+  }),
   graphql(destroyList, {
     name: 'destroyList',
-    props({ownProps, mutate}) {
+    props: ({ownProps, destroyList}) => {
       return {
         destroyList: (props) => {
-          return mutate({
+          return destroyList({
             variables: props.variables,
             updateQueries: {
               Lists: (prev, {mutationResult}) => {
+                const id = mutationResult.data.destroyList.id;
+                const index = prev.lists.findIndex((edge) => {
+                  return edge.id === id;
+                });
                 return update(prev, {
                   lists: {
+                    $splice: [[index, 1]]
                   }
                 });
               }
@@ -87,6 +97,25 @@ export default compose(
     }
   }),
   graphql(createList, {
-    name: 'createList'
+    name: 'createList',
+    props: ({ownProps, createList}) => {
+      return {
+        createList: (props) => {
+          return createList({
+            variables: props.variables,
+            updateQueries: {
+              Lists: (prev, {mutationResult}) => {
+                const newList = mutationResult.data.createList.list;
+                return update(prev, {
+                  lists: {
+                    $push: [newList]
+                  }
+                });
+              }
+            }
+          })
+        }
+      }
+    }
   }),
 )(Lists)

@@ -97,7 +97,29 @@ const ListWithData = compose (
     }
   }),
   graphql(destroySubscriber, {
-    name: 'destroySubscriber'
+    name: 'destroySubscriber',
+    props: ({ownProps, mutate}) => {
+      return {
+        destroySubscriber: (props) => {
+          return mutate({
+            variables: props.variables,
+            updateQueries: {
+              List: (prev, { mutationResult }) => {
+                return update(prev, {
+                  list: {
+                    subscribers: {
+                      edges: {
+
+                      }
+                    }
+                  }
+                });
+              }
+            }
+          })
+        }
+      }
+    }
   }),
   graphql(createSubscriber, {
     props({ownProps, mutate}) {

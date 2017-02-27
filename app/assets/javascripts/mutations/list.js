@@ -14,9 +14,7 @@ const createList = gql`
 const destroyList = gql`
   mutation destroyList($list: DestroyListInput!) {
     destroyList(input: $list) {
-      user {
-        id
-      }
+      id
     }
   }
 `;

@@ -14,6 +14,7 @@ import Letter from './components/letter';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
+
   opts: {
     credentials: 'same-origin',
   },
@@ -31,7 +32,13 @@ networkInterface.useAfter([
   }
 ])
 
-const client = new ApolloClient({networkInterface});
+const client = new ApolloClient({
+  networkInterface,
+  dataIdFromObject: (o) => {
+    console.log(o);
+    return o.id
+  }
+});
 
 ReactDOM.render((
   <ApolloProvider client={client} >
