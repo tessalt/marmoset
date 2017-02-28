@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 import {ApolloProvider, graphql} from 'react-apollo';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, Link, browserHistory, useRouterHistory } from 'react-router'
+import { createHistory } from 'history'
 
 import Lists from './components/lists';
 import List from './components/list';
@@ -40,9 +41,13 @@ const client = new ApolloClient({
   }
 });
 
+const history = useRouterHistory(createHistory)({
+  basename: '/app'
+})
+
 ReactDOM.render((
   <ApolloProvider client={client} >
-    <Router history={browserHistory}>
+    <Router history={history}>
       <Route path="/" component={App}>
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />

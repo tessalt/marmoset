@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   #
-  root to: 'client#index'
 
-  post '/login', to: "sessions#create"
+  scope '/app' do
+    root to: 'client#index'
+    post '/login', to: "sessions#create"
+    get "*path", to:"client#index"
+  end
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
@@ -22,5 +25,6 @@ Rails.application.routes.draw do
       end
     end
   end
-  get "*path", to:"client#index"
+
+  get "*path", to:"public#index"
 end

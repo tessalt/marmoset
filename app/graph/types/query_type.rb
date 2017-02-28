@@ -30,5 +30,18 @@ QueryType = GraphQL::ObjectType.define do
     end
   end
 
+  field :publicList do
+    type ListType
+
+    argument :user_id, !types.ID
+    argument :list_id, !types.ID
+
+    resolve -> (obj, args, ctx) do
+      user_type, user_id = GraphQL::Schema::UniqueWithinType.decode(args[:user_id])
+      list_type, list_id = GraphQL::Schema::UniqueWithinType.decode(args[:list_id])
+      User.find(user_id).lists.find(list_id)
+    end
+  end
+
   field :node, GraphQL::Relay::Node.field
 end

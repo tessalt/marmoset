@@ -31,7 +31,18 @@ const showList = gql`
   }
 `
 
+const publicList = gql`
+  query PublicList($user: ID!, $list: ID!) {
+    publicList(list_id: $list, user_id: $user) {
+      list_id,
+      user_id,
+      name
+    }
+  }
+`;
+
 export {
   indexLists,
-  showList
+  showList,
+  publicList
 }
