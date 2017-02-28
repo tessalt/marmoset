@@ -83,6 +83,7 @@ class List extends React.Component {
             <Letters letters={drafts} />
             <h3>Subscribers</h3>
             <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
+            <h3>Add new subscriber</h3>
             <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
           </div>
         }

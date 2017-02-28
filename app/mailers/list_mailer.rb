@@ -6,7 +6,18 @@ class ListMailer < ApplicationMailer
     mail(
       to: @list.subscribers.pluck(:email),
       subject: @letter.subject,
-      from: 'tessathornton@gmail.com'
+      from: @user.email
+    )
+  end
+
+  def confirm_subscriber(subscriber)
+    @subscriber = subscriber
+    @list = List.find(subscriber.list_id)
+    @list_graph_id = Schema::id_from_object(@list, List, nil)
+    mail(
+      to: @subscriber.email
+      subject: "Confirm subscription to #{@list.name}",
+      from: @user.email
     )
   end
 end

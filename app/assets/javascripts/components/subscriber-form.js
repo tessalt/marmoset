@@ -26,7 +26,6 @@ export default class SubscriberForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <h3>Add new subscriber</h3>
         <label><input ref="email" placeholder="email" /></label>
         <button type="submit">create</button>
         <Errors errors={this.state.errors} />

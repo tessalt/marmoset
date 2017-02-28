@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223131515) do
+ActiveRecord::Schema.define(version: 20170228173347) do
 
   create_table "letters", force: :cascade do |t|
     t.string   "subject"
@@ -33,8 +33,9 @@ ActiveRecord::Schema.define(version: 20170223131515) do
   create_table "subscribers", force: :cascade do |t|
     t.string   "email"
     t.integer  "list_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "confirmed",  default: false
     t.index ["list_id"], name: "index_subscribers_on_list_id"
   end
 

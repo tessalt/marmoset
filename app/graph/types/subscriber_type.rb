@@ -5,6 +5,7 @@ SubscriberType = GraphQL::ObjectType.define do
   global_id_field :id
 
   field :email, !types.String
+  field :confirmed, !types.Boolean
   field :listId do
     type types.ID
     resolve -> (obj, args, ctx) do
