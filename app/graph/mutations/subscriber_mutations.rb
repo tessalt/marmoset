@@ -7,9 +7,7 @@ class SubscriberMutations
     return_field :subscriber, SubscriberType
 
     resolve -> (object, inputs, ctx) {
-      user = ctx[:current_user]
-      type, list_id = GraphQL::Schema::UniqueWithinType.decode(inputs[:list_id])
-      list = user.lists.find(list_id)
+      list = Schema::object_from_id(inputs[:list_id], ctx)
       subscriber = list.subscribers.create(email: inputs[:email])
 
       {
@@ -27,14 +25,17 @@ class SubscriberMutations
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
-      subscriber = Subscriber.find(id)
-      list = user.lists.find(subscriber.list_id)
-      subscriber.update_attributes(email: inputs[:email])
+      subscriber = Schema::object_from_id(inputs[:id], ctx)
 
-      {
-        subscriber: subscriber
-      }
+      if user.can_access?(subscriber)
+        subscriber.update_attributes(email: inputs[:email])
+
+        {
+          subscriber: subscriber
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 
@@ -46,14 +47,16 @@ class SubscriberMutations
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
-      subscriber = Subscriber.find(id)
-      list = user.lists.find(subscriber.list_id)
-      subscriber.destroy
+      subscriber = Schema::object_from_id(inputs[:id], ctx)
+      if user.can_access?(subscriber)
+        subscriber.destroy
 
-      {
-        id: inputs[:id]
-      }
+        {
+          id: inputs[:id]
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 end

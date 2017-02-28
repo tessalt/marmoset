@@ -4,30 +4,25 @@ QueryType = GraphQL::ObjectType.define do
 
   field :lists do
     type types[ListType]
-    resolve -> (obj, args, ctx) do
+    resolve ResolveHelpers::assert_allowed_lists (-> (obj, args, ctx) {
       ctx[:current_user].lists
-    end
+    })
   end
 
   field :list do
     type ListType
     argument :id, types.ID
-    resolve -> (obj, args, ctx) do
-      type, id = GraphQL::Schema::UniqueWithinType.decode(args[:id])
-      ctx[:current_user].lists.find(id)
-    end
+    resolve ResolveHelpers::assert_allowed_object(-> (obj, args, ctx) {
+      Schema::object_from_id(args[:id], ctx)
+    })
   end
 
   field :letter do
     type LetterType
     argument :id, types.ID
-    argument :list_id, types.ID
-    resolve -> (obj, args, ctx) do
-      list_type, list_id = GraphQL::Schema::UniqueWithinType.decode(args[:list_id])
-      list = ctx[:current_user].lists.find(list_id)
-      letter_type, letter_id = GraphQL::Schema::UniqueWithinType.decode(args[:id])
-      list.letters.find(letter_id)
-    end
+    resolve ResolveHelpers::assert_allowed_object(-> (obj, args, ctx) {
+      Schema::object_from_id(args[:id], ctx)
+    })
   end
 
   field :publicList do
@@ -37,8 +32,8 @@ QueryType = GraphQL::ObjectType.define do
     argument :list_id, !types.ID
 
     resolve -> (obj, args, ctx) do
-      user_type, user_id = GraphQL::Schema::UniqueWithinType.decode(args[:user_id])
-      list_type, list_id = GraphQL::Schema::UniqueWithinType.decode(args[:list_id])
+      user_id = ResolveHelpers::resolve_id(args[:user_id])
+      list_id = ResolveHelpers::resolve_id(args[:list_id])
       User.find(user_id).lists.find(list_id)
     end
   end

@@ -11,7 +11,7 @@ function post(url, params, cb) {
 
 const auth = {
   login(params, cb) {
-    return post('/login', {auth: params}, cb);
+    return post('/app/login', {auth: params}, cb);
   },
   signup(params, cb) {
     return post('/api/users', {user: params}, cb);

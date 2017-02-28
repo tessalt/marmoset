@@ -9,4 +9,14 @@ class User < ApplicationRecord
     format: {with: VALID_EMAIL_REGEX}
   validates :password, presence: true, length: { minimum: 6 }
   has_secure_password
+
+  def can_access?(obj)
+    if obj.class == List
+      obj.user_id == self.id
+    elsif obj.class == Letter || obj.class == Subscriber
+      List.find(obj.list_id).user_id == self.id
+    else
+      false
+    end
+  end
 end

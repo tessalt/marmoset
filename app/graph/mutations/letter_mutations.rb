@@ -9,13 +9,15 @@ class LetterMutations
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, list_id = GraphQL::Schema::UniqueWithinType.decode(inputs[:list_id])
-      list = user.lists.find(list_id)
-      letter = list.letters.create(subject: inputs[:subject], contents: inputs[:contents])
-
-      {
-        letter: letter
-      }
+      list = Schema::object_from_id(inputs[:list_id], ctx)
+      if user.can_access?(list)
+        letter = list.letters.create(subject: inputs[:subject], contents: inputs[:contents])
+        {
+          letter: letter
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 
@@ -30,15 +32,16 @@ class LetterMutations
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
-      letter = Letter.find(id)
-      list = user.lists.find(letter.list_id)
-      valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}.except('id')
-      letter.update_attributes(valid_attributes)
-
-      {
-        letter: letter
-      }
+      letter = Schema::object_from_id(inputs[:id], ctx)
+      if user.can_access?(letter)
+        valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}.except('id')
+        letter.update_attributes(valid_attributes)
+        {
+          letter: letter
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 
@@ -50,33 +53,37 @@ class LetterMutations
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
-      letter = Letter.find(id)
-      list = user.lists.find(letter.list_id)
-      letter.destroy
+      letter = Schema::object_from_id(inputs[:id], ctx)
+      if user.can_access?(letter)
+        letter.destroy
 
-      {
-        list: list
-      }
+        {
+          list: list
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 
   Send = GraphQL::Relay::Mutation.define do
     name "SendLetter"
     input_field :id, !types.ID
-    input_field :list_id, !types.ID
     return_field :letter, LetterType
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
-      type, id = GraphQL::Schema::UniqueWithinType.decode(inputs[:id])
-      letter = Letter.find(id)
-      ListMailer.letter(letter).deliver_now
-      letter.update_attributes(sent: true)
+      letter = Schema::object_from_id(inputs[:id], ctx)
+      if user.can_access?(letter)
+        ListMailer.letter(letter).deliver_now
+        letter.update_attributes(sent: true)
 
-      {
-        letter: letter
-      }
+        {
+          letter: letter
+        }
+      else
+        GraphQL::ExecutionError.new('insufficent permissions')
+      end
     }
   end
 end

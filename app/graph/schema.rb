@@ -7,7 +7,7 @@ Schema = GraphQL::Schema.define do
   }
 
   object_from_id -> (id, query_ctx) {
-    type_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id)
+    class_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id)
     Object.const_get(class_name).find(item_id)
   }
 

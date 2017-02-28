@@ -36,7 +36,6 @@ class LetterEdit extends React.Component {
       variables: {
         letter: {
           id: this.props.params.id,
-          list_id: this.props.params.list_id
         }
       }
     }).then((response) => {
