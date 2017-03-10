@@ -1,0 +1,1 @@
+AUTH_SECRET: "run rake secret to generate"

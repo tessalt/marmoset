@@ -1,24 +1,41 @@
-# README
+### Dependencies
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby 2.3.0
+* [bunlder](http://bundler.io/)
+* [yarn](https://yarnpkg.com/en/)
+* sqlite3
 
-Things you may want to cover:
+### Setup
 
-* Ruby version
+Install ruby gems:
 
-* System dependencies
+```
+bundle
+```
 
-* Configuration
+Install JS packages:
 
-* Database creation
+```
+yarn
+```
 
-* Database initialization
+rename application.yml.example to application.yml.
+Run `rake secret` to generate a secret key. Paste this into your new application.yml
 
-* How to run the test suite
+setup database:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+bundle exec rake db:setup
+```
 
-* Deployment instructions
+start local server:
 
-* ...
+```
+bundle exec rails server
+```
+
+Visit localhost:3000. Create a new user (email does not need to be real yet).
+
+## Development
+
+Client-side entry point is at app/assets/javascripts/application.js
