@@ -39,3 +39,7 @@ Visit localhost:3000. Create a new user (email does not need to be real yet).
 ## Development
 
 Client-side entry point is at app/assets/javascripts/application.js
+
+## Graphql API
+
+Visit /graphiql in browser to play around with the graphql API.
