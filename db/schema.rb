@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170228173347) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "letters", force: :cascade do |t|
     t.string   "subject"
     t.text     "contents"
@@ -19,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170228173347) do
     t.integer  "list_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.index ["list_id"], name: "index_letters_on_list_id"
+    t.index ["list_id"], name: "index_letters_on_list_id", using: :btree
   end
 
   create_table "lists", force: :cascade do |t|
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20170228173347) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_lists_on_user_id"
+    t.index ["user_id"], name: "index_lists_on_user_id", using: :btree
   end
 
   create_table "subscribers", force: :cascade do |t|
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20170228173347) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "confirmed",  default: false
-    t.index ["list_id"], name: "index_subscribers_on_list_id"
+    t.index ["list_id"], name: "index_subscribers_on_list_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -45,7 +48,10 @@ ActiveRecord::Schema.define(version: 20170228173347) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "password_digest"
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "letters", "lists"
+  add_foreign_key "lists", "users"
+  add_foreign_key "subscribers", "lists"
 end

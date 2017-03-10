@@ -3,7 +3,7 @@
 * Ruby 2.3.0
 * [bunlder](http://bundler.io/)
 * [yarn](https://yarnpkg.com/en/)
-* sqlite3
+* postgres
 
 ### Setup
 

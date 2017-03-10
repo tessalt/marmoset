@@ -98,6 +98,7 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
+    pg (0.19.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -199,6 +200,7 @@ DEPENDENCIES
   jwt
   listen (~> 3.0.5)
   mailgun_rails
+  pg
   pry
   puma (~> 3.0)
   rails (~> 5.0.1)
