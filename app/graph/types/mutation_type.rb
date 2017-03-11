@@ -6,6 +6,7 @@ MutationType = GraphQL::ObjectType.define do
   field :destroyList, field: ListMutations::Destroy.field
   field :createSubscriber, field: SubscriberMutations::Create.field
   field :updateSubscriber, field: SubscriberMutations::Update.field
+  field :confirmSubscriber, field: SubscriberMutations::Confirm.field
   field :destroySubscriber, field: SubscriberMutations::Destroy.field
   field :createLetter, field: LetterMutations::Create.field
   field :updateLetter, field: LetterMutations::Update.field

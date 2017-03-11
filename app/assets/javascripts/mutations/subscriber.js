@@ -12,6 +12,30 @@ const createSubscriber = gql`
   }
 `;
 
+const updateSubscriber = gql`
+  mutation updateSubscriber($subscriber: UpdateSubscriberInput!) {
+    updateSubscriber(input: $subscriber) {
+      subscriber {
+        id,
+        email,
+        errors
+      }
+    }
+  }
+`;
+
+const confirmSubscriber = gql`
+  mutation confirmSubscriber($subscriber: ConfirmSubscriberInput!) {
+    confirmSubscriber(input: $subscriber) {
+      subscriber {
+        id,
+        email,
+        errors
+      }
+    }
+  }
+`;
+
 const destroySubscriber = gql`
   mutation destroySubscriber($subscriber: DestroySubscriberInput!) {
     destroySubscriber(input: $subscriber) {
@@ -23,4 +47,6 @@ const destroySubscriber = gql`
 export {
   createSubscriber,
   destroySubscriber,
+  updateSubscriber,
+  confirmSubscriber,
 }

@@ -15,6 +15,7 @@ class ListMailer < ApplicationMailer
     @list = List.find(subscriber.list_id)
     @user = User.find(@list.user_id)
     @list_graph_id = Schema::id_from_object(@list, List, nil)
+    @subscriber_graph_id = Schema::id_from_object(@subscriber, Subscriber, nil)
     mail(
       to: @subscriber.email,
       subject: "Confirm subscription to #{@list.name}",

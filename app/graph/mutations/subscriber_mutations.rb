@@ -23,7 +23,8 @@ class SubscriberMutations
   Update = GraphQL::Relay::Mutation.define do
     name "UpdateSubscriber"
     input_field :id, !types.ID
-    input_field :email, !types.String
+    input_field :email, types.String
+    input_field :confirmed, types.Boolean
 
     return_field :subscriber, SubscriberType
 
@@ -32,7 +33,8 @@ class SubscriberMutations
       subscriber = Schema::object_from_id(inputs[:id], ctx)
 
       if user.can_access?(subscriber)
-        subscriber.update_attributes(email: inputs[:email])
+        valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}.except('id')
+        subscriber.update_attributes(valid_attributes)
 
         {
           subscriber: subscriber
@@ -40,6 +42,21 @@ class SubscriberMutations
       else
         GraphQL::ExecutionError.new('insufficent permissions')
       end
+    }
+  end
+
+  Confirm = GraphQL::Relay::Mutation.define do
+    name "ConfirmSubscriber"
+    input_field :id, !types.ID
+
+    return_field :subscriber, SubscriberType
+
+    resolve -> (object, inputs, ctx) {
+      subscriber = Schema::object_from_id(inputs[:id], ctx)
+      subscriber.update_attributes(confirmed: true)
+      {
+        subscriber: subscriber
+      }
     }
   end
 

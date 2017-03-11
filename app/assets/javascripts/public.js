@@ -6,6 +6,7 @@ import { Router, Route, Link, browserHistory, useRouterHistory } from 'react-rou
 import { createHistory } from 'history'
 import Public from './components/public/index'
 import Subscribe from './components/public/subscribe'
+import Confirm from './components/public/confirm'
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -26,6 +27,7 @@ ReactDOM.render((
     <Router history={browserHistory}>
       <Route path="/" component={Public}>
         <Route path=":user_id/:list_id" component={Subscribe}/>
+        <Route path=":list_id/confirm/:subscriber_id" component={Confirm}/>
       </Route>
     </Router>
   </ApolloProvider>
