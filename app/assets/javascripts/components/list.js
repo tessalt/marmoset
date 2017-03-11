@@ -42,7 +42,8 @@ class List extends React.Component {
       variables: {
         subscriber: {
           email,
-          list_id: this.props.data.list.id
+          list_id: this.props.data.list.id,
+          confirmed: true
         }
       }
     }).then((response) => {

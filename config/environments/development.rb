@@ -32,6 +32,8 @@ Rails.application.configure do
     domain: 'sandboxfab813ed3bc04d258f6abed5160e37d4.mailgun.org'
   }
 
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
 

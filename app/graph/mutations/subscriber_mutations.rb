@@ -8,7 +8,11 @@ class SubscriberMutations
 
     resolve -> (object, inputs, ctx) {
       list = Schema::object_from_id(inputs[:list_id], ctx)
+      # also if confirmed or not
       subscriber = list.subscribers.create(email: inputs[:email])
+      if !subscriber.confirmed
+        mail = ListMailer.confirm_subscriber(subscriber).deliver_now
+      end
 
       {
         subscriber: subscriber
