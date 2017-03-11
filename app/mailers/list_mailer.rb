@@ -4,7 +4,7 @@ class ListMailer < ApplicationMailer
     @list = List.find(letter.list_id)
     @user = User.find(@list.user_id)
     mail(
-      to: @list.subscribers.pluck(:email),
+      to: @list.subscribers.where(confirmed: true).pluck(:email),
       subject: @letter.subject,
       from: @user.email
     )

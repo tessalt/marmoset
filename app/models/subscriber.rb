@@ -7,4 +7,5 @@ class Subscriber < ApplicationRecord
     length: {maximum: 255},
     format: {with: VALID_EMAIL_REGEX}
   validates :list_id, presence: true
+  validates_uniqueness_of :email, scope: :list_id
 end

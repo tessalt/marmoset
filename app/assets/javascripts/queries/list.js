@@ -23,7 +23,8 @@ const showList = gql`
         edges {
           node {
             email,
-            id
+            id,
+            confirmed
           }
         }
       }

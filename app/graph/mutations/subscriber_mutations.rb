@@ -2,16 +2,22 @@ class SubscriberMutations
   Create = GraphQL::Relay::Mutation.define do
     name "CreateSubscriber"
     input_field :email, !types.String
+    input_field :confirmed, types.Boolean
     input_field :list_id, !types.ID
 
     return_field :subscriber, SubscriberType
 
     resolve -> (object, inputs, ctx) {
       list = Schema::object_from_id(inputs[:list_id], ctx)
-      # also if confirmed or not
-      subscriber = list.subscribers.create(email: inputs[:email])
-      if !subscriber.confirmed
-        mail = ListMailer.confirm_subscriber(subscriber).deliver_now
+      valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}
+      subscriber = list.subscribers.build(valid_attributes)
+      if subscriber.save && !subscriber.confirmed
+        mail = ListMailer.confirm_subscriber(subscriber)
+        begin
+          mail.deliver_now
+        rescue Exception => e
+          puts e
+        end
       end
 
       {
