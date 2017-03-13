@@ -75,15 +75,11 @@ class SubscriberMutations
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
       subscriber = Schema::object_from_id(inputs[:id], ctx)
-      if user.can_access?(subscriber)
-        subscriber.destroy
+      subscriber.destroy
 
-        {
-          id: inputs[:id]
-        }
-      else
-        GraphQL::ExecutionError.new('insufficent permissions')
-      end
+      {
+        id: inputs[:id]
+      }
     }
   end
 end

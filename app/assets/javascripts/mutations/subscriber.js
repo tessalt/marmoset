@@ -36,7 +36,7 @@ const confirmSubscriber = gql`
   }
 `;
 
-const destroySubscriber = gql`
+const deleteSubscriber = gql`
   mutation destroySubscriber($subscriber: DestroySubscriberInput!) {
     destroySubscriber(input: $subscriber) {
       id
@@ -46,7 +46,7 @@ const destroySubscriber = gql`
 
 export {
   createSubscriber,
-  destroySubscriber,
+  deleteSubscriber,
   updateSubscriber,
   confirmSubscriber,
 }

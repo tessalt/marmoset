@@ -3,11 +3,19 @@ class ListMailer < ApplicationMailer
     @letter = letter
     @list = List.find(letter.list_id)
     @user = User.find(@list.user_id)
-    mail(
-      to: @list.subscribers.where(confirmed: true).pluck(:email),
+    @list_graph_id = Schema::id_from_object(@list, List, nil)
+    recipients = @list.subscribers.where(confirmed: true)
+    email = mail(
+      to: recipients.pluck(:email),
       subject: @letter.subject,
       from: @user.email
     )
+    email.mailgun_recipient_variables = recipients.inject({}) do |memo, recipient|
+      memo[recipient[:email]] = {
+        id: recipient_graph_id(recipient)
+      }
+      memo
+    end
   end
 
   def confirm_subscriber(subscriber)
@@ -21,5 +29,9 @@ class ListMailer < ApplicationMailer
       subject: "Confirm subscription to #{@list.name}",
       from: @user.email
     )
+  end
+
+  def recipient_graph_id(subscriber)
+    Schema::id_from_object(subscriber, Subscriber, nil)
   end
 end
