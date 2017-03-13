@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import {deleteSubscriber} from '../../mutations/subscriber';
+import {destroySubscriber} from '../../mutations/subscriber';
 
 class Unsubscribe extends React.Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class Unsubscribe extends React.Component {
   }
 
   onClick() {
-    this.props.deleteSubscriber({
+    this.props.destroySubscriber({
       variables: {
         subscriber: {
           id: this.props.params.subscriber_id,
@@ -35,6 +35,6 @@ class Unsubscribe extends React.Component {
   }
 }
 
-export default graphql(deleteSubscriber, {
-  name: 'deleteSubscriber',
+export default graphql(destroySubscriber, {
+  name: 'destroySubscriber',
 })(Unsubscribe);
