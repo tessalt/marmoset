@@ -13,6 +13,7 @@ import Signup from './components/signup';
 import Compose from './components/compose';
 import Letter from './components/letter';
 import LetterEdit from './components/letter-edit';
+import Settings from './components/settings';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -51,6 +52,7 @@ ReactDOM.render((
       <Route path="/" component={App}>
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
+        <Route path="settings" component={Settings} />
         <Route path="lists" component={Lists} />
         <Route path="lists/:id" component={List}/>
         <Route path="lists/:list_id/compose" component={Compose}/>

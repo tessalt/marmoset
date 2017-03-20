@@ -27,5 +27,8 @@
     "presets": [
       "shopify"
     ]
+  },
+  "devDependencies": {
+    "tachyons-sass": "4.7.1"
   }
 }

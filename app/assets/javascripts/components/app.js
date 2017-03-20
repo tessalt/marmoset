@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Link, browserHistory } from 'react-router'
+import Nav from './nav';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -8,13 +9,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <ul>
-          <li><Link to="/login">Log in</Link></li>
-          <li><Link to="/signup">Sign up</Link></li>
-          <li><Link to="/lists">Lists</Link></li>
-        </ul>
-        {this.props.children}
+      <div className="">
+        <Nav />
+        <div className="fl w-100 pa2">
+          {this.props.children}
+        </div>
       </div>
     )
   }

@@ -11,11 +11,13 @@ const Letters = (props) => {
   const lettersList = props.letters.map((letter, key) => {
     const path = `/lists/${letter.node.list_id}/letters/${letter.node.id}${letter.node.sent ? '' : '/edit'}`;
     return (
-      <li key={key}><Link to={path}>{letter.node.subject}</Link></li>
+      <tr key={key}>
+        <td><Link to={path} className="light-purple link underline">{letter.node.subject}</Link></td>
+      </tr>
     )
   });
   return (
-    <ul>{lettersList}</ul>
+    <table cellSpacing="0"><tbody>{lettersList}</tbody></table>
   )
 }
 
@@ -25,14 +27,14 @@ const Subscribers = (props) => {
       props.onDelete(subscriber.node.id);
     }
     return (
-      <div key={key}>
-        <p>{subscriber.node.email}</p>
-        <button onClick={onDelete}>Delete</button>
-      </div>
+      <tr key={key}>
+        <td>{subscriber.node.email}</td>
+        <td><button className="f6 link dim b--red bg-white ba bw1 ph3 pv2 red tr" onClick={onDelete}>Delete</button></td>
+      </tr>
     )
   });
   return (
-    <ul>{subscribersList}</ul>
+    <table className="w-100" cellSpacing="0"><tbody>{subscribersList}</tbody></table>
   )
 }
 
@@ -75,17 +77,25 @@ class List extends React.Component {
     return (
       <div>
         {!this.props.data.loading &&
-          <div>
-            <h2>{this.props.data.list.name}</h2>
-            <Link to={`/lists/${this.props.data.list.id}/compose`}>Compose</Link>
-            <h3>Sent</h3>
-            <Letters letters={sentLetters} />
-            <h3>Drafts</h3>
-            <Letters letters={drafts} />
-            <h3>Subscribers</h3>
-            <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
-            <h3>Add new subscriber</h3>
-            <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
+          <div className="cf">
+            <div className="fl w-20 pa2">
+              <Link to="/lists" className="db pv2 link">Lists</Link>
+              <Link to="/settings" className="db pv2 link black">Settings</Link>
+            </div>
+            <div className="fl w-60">
+              <div className="cf mt2">
+                <h2 className="f2 normal fl mt0">{this.props.data.list.name}</h2>
+                <Link className="fr f6 link dim bn ph3 pv2 bg-light-purple white" to={`/lists/${this.props.data.list.id}/compose`}>Compose</Link>
+              </div>
+              <h3>Sent Letters</h3>
+              <Letters letters={sentLetters} />
+              <h3>Drafts</h3>
+              <Letters letters={drafts} />
+              <h3>Subscribers</h3>
+              <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
+              <h3>Add new subscriber</h3>
+              <SubscriberForm onSubmit={this.createSubscriber.bind(this)} />
+            </div>
           </div>
         }
       </div>

@@ -7,9 +7,11 @@ export default class ListForm extends React.Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label><input ref="name" placeholder="name" /></label>
-        <button type="submit">create</button>
+      <form onSubmit={this.handleSubmit.bind(this)} className="cf bg-light-purple pa3 w-50">
+        <label className="db fl w-60">
+          <input className="input-reset border-box w-100 bn pl3 pv3 f6" ref="name" placeholder="name" />
+        </label>
+        <div className="fl tr w-40"><button type="submit" className="w-100 f6 link dim bn ph3 pv3 bg-black-70 white">Create New List</button></div>
       </form>
     )
   }

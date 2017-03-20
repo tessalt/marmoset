@@ -4,10 +4,11 @@
     <title>Marmoset</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag 'app', media: 'all' %>
+    <%= stylesheet_link_tag 'public', media: 'all' %>
   </head>
 
   <body>
     <%= yield %>
+    <%= javascript_include_tag 'public' %>
   </body>
 </html>

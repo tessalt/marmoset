@@ -12,10 +12,12 @@ const ListLink = (props) => {
     props.onDeleteClick(props.id);
   }
   return (
-    <div>
-      <h2><Link to={`/lists/${props.id}`}> {props.name} </Link></h2>
-      <button onClick={onDeleteClick}>Delete</button>
-    </div>
+    <tr>
+      <td className="pv2"><Link to={`/lists/${props.id}`} className="light-purple dim"> {props.name} </Link></td>
+      <td className="pv2">{props.subscribers.edges.length} subscribers</td>
+      <td className="pv2">{props.letters.edges.length} letters</td>
+      <td className="pv2"><button className="f6 link dim b--red bg-white ba bw1 ph3 pv2 red tr" onClick={onDeleteClick}>Delete</button></td>
+    </tr>
   )
 }
 
@@ -43,16 +45,24 @@ class Lists extends React.Component {
     });
   }
   render() {
+    const lists = this.props.data.lists ? this.props.data.lists.map((list, key) => {
+      return <ListLink key={key} {...list} onDeleteClick={this.destroyList.bind(this)}/>
+    }) : null;
     return (
       <div>
-        <h1>Lists</h1>
-        <ListForm onSubmit={this.createNewList.bind(this)}/>
-        { this.props.data.loading
-          ? 'loading'
-          : this.props.data.lists.map((list, key) => {
-            return <ListLink key={key} {...list} onDeleteClick={this.destroyList.bind(this)}/>
-          })
-        }
+        <div className="fl w-20 pa2">
+          <Link to="/lists" className="db pv2 link">Lists</Link>
+          <Link to="/settings" className="db pv2 link black">Settings</Link>
+        </div>
+        <div className="fl w-80">
+          <h1 className="f2 lh-copy normal">Lists</h1>
+          <ListForm onSubmit={this.createNewList.bind(this)}/>
+          <table cellSpacing="0" className="w-100">
+            <tbody>
+              {lists}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   }

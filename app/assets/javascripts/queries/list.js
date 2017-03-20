@@ -1,6 +1,21 @@
 import gql from 'graphql-tag';
 
-const indexLists = gql`query Lists { lists { id, name }  }`
+const indexLists = gql`query Lists {
+  lists {
+    id,
+    name,
+    subscribers {
+      edges {
+        node {id}
+      }
+    }
+    letters {
+      edges {
+        node {id}
+      }
+    }
+  }
+}`
 
 const showList = gql`
   query List($list: ID!){
