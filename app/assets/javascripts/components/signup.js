@@ -31,7 +31,7 @@ export default class Signup extends React.Component {
       if (location.state && location.state.nextPathname) {
         this.props.router.replace(location.state.nextPathname)
       } else {
-        this.props.router.replace('/lists')
+        this.props.router.replace('/')
       }
     })
   }

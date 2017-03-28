@@ -1,5 +1,5 @@
 module ResolveHelpers
-  def self.assert_allowed_lists (resolve)
+  def self.assert_user (resolve)
     -> (obj, args, ctx) {
       current_user = ctx[:current_user]
       if current_user

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ApolloClient, {createNetworkInterface} from 'apollo-client';
 import {ApolloProvider, graphql} from 'react-apollo';
-import { Router, Route, Link, browserHistory, useRouterHistory } from 'react-router'
+import { Router, Route, Link, browserHistory, useRouterHistory, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
 
 import Lists from './components/lists';
@@ -12,6 +12,7 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Compose from './components/compose';
 import Letter from './components/letter';
+import Letters from './components/letters';
 import LetterEdit from './components/letter-edit';
 import Settings from './components/settings';
 
@@ -50,6 +51,7 @@ ReactDOM.render((
   <ApolloProvider client={client} >
     <Router history={history}>
       <Route path="/" component={App}>
+        <IndexRoute component={Letters} />
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route path="settings" component={Settings} />

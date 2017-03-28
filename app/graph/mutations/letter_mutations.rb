@@ -11,7 +11,7 @@ class LetterMutations
       user = ctx[:current_user]
       list = Schema::object_from_id(inputs[:list_id], ctx)
       if user.can_access?(list)
-        letter = list.letters.create(subject: inputs[:subject], contents: inputs[:contents])
+        letter = user.letters.create(subject: inputs[:subject], contents: inputs[:contents], list_id: list.id)
         {
           letter: letter
         }
@@ -26,6 +26,7 @@ class LetterMutations
     input_field :id, !types.ID
     input_field :subject, types.String
     input_field :contents, types.String
+    input_field :list_id, types.ID
     input_field :sent, types.Boolean
 
     return_field :letter, LetterType
@@ -34,7 +35,11 @@ class LetterMutations
       user = ctx[:current_user]
       letter = Schema::object_from_id(inputs[:id], ctx)
       if user.can_access?(letter)
-        valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}.except('id')
+        valid_attributes = inputs.to_h.select{|key, input| inputs.key? key}.except('id', 'list_id')
+        if inputs[:list_id]
+          list = Schema::object_from_id(inputs[:list_id], ctx)
+          valid_attributes.push({list_id: list.id})
+        end
         letter.update_attributes(valid_attributes)
         {
           letter: letter
@@ -49,7 +54,7 @@ class LetterMutations
     name "DestroyLetter"
     input_field :id, !types.ID
 
-    return_field :list, ListType
+    return_field :user, UserType
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
@@ -58,7 +63,7 @@ class LetterMutations
         letter.destroy
 
         {
-          list: list
+          user: user
         }
       else
         GraphQL::ExecutionError.new('insufficent permissions')

@@ -1,5 +1,18 @@
 import gql from 'graphql-tag';
 
+const indexLetters = gql`
+  query Letters {
+    letters {
+      list_id,
+      errors,
+      id,
+      subject,
+      contents,
+      sent,
+    }
+  }
+`
+
 const showLetter = gql`
   query Letter($letter: ID!) {
     letter(id: $letter) {
@@ -14,5 +27,6 @@ const showLetter = gql`
 `
 
 export {
-  showLetter
+  showLetter,
+  indexLetters
 }

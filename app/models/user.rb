@@ -2,6 +2,7 @@ VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
 class User < ApplicationRecord
   has_many :lists, dependent: :destroy
+  has_many :letters, dependent: :destroy
   before_save {self.email = email.downcase}
   validates :email, presence: true,
     uniqueness: {case_sensitive: false},
@@ -11,9 +12,9 @@ class User < ApplicationRecord
   has_secure_password
 
   def can_access?(obj)
-    if obj.class == List
+    if obj.class == List || obj.class == Letter
       obj.user_id == self.id
-    elsif obj.class == Letter || obj.class == Subscriber
+    elsif obj.class == Subscriber
       List.find(obj.list_id).user_id == self.id
     else
       false

@@ -4,7 +4,7 @@ QueryType = GraphQL::ObjectType.define do
 
   field :lists do
     type types[ListType]
-    resolve ResolveHelpers::assert_allowed_lists (-> (obj, args, ctx) {
+    resolve ResolveHelpers::assert_user (-> (obj, args, ctx) {
       ctx[:current_user].lists
     })
   end
@@ -14,6 +14,13 @@ QueryType = GraphQL::ObjectType.define do
     argument :id, types.ID
     resolve ResolveHelpers::assert_allowed_object(-> (obj, args, ctx) {
       Schema::object_from_id(args[:id], ctx)
+    })
+  end
+
+  field :letters do
+    type types[LetterType]
+    resolve ResolveHelpers::assert_user (-> (obj, args, ctx) {
+      ctx[:current_user].letters
     })
   end
 
