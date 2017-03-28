@@ -9,11 +9,6 @@ const indexLists = gql`query Lists {
         node {id}
       }
     }
-    letters {
-      edges {
-        node {id}
-      }
-    }
   }
 }`
 

@@ -55,9 +55,9 @@ ReactDOM.render((
         <Route path="settings" component={Settings} />
         <Route path="lists" component={Lists} />
         <Route path="lists/:id" component={List}/>
-        <Route path="lists/:list_id/compose" component={Compose}/>
-        <Route path="lists/:list_id/letters/:id" component={Letter}/>
-        <Route path="lists/:list_id/letters/:id/edit" component={LetterEdit}/>
+        <Route path="compose" component={Compose}/>
+        <Route path="letters/:id" component={Letter}/>
+        <Route path="letters/:id/edit" component={LetterEdit}/>
       </Route>
     </Router>
   </ApolloProvider>

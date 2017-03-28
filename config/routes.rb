@@ -20,11 +20,11 @@ Rails.application.routes.draw do
 
   scope '/api' do
     resources :users
+    resources :letters do
+      get 'send'
+    end
     resources :lists do
       resources :subscribers
-      resources :letters do
-        get 'send'
-      end
     end
   end
 

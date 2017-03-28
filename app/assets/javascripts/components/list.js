@@ -9,7 +9,7 @@ import {showList} from '../queries/list';
 
 const Letters = (props) => {
   const lettersList = props.letters.map((letter, key) => {
-    const path = `/lists/${letter.node.list_id}/letters/${letter.node.id}${letter.node.sent ? '' : '/edit'}`;
+    const path = `letters/${letter.node.id}${letter.node.sent ? '' : '/edit'}`;
     return (
       <tr key={key}>
         <td><Link to={path} className="light-purple link underline">{letter.node.subject}</Link></td>

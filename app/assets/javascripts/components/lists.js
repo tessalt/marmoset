@@ -14,8 +14,6 @@ const ListLink = (props) => {
   return (
     <tr>
       <td className="pv2"><Link to={`/lists/${props.id}`} className="light-purple dim"> {props.name} </Link></td>
-      <td className="pv2">{props.subscribers.edges.length} subscribers</td>
-      <td className="pv2">{props.letters.edges.length} letters</td>
       <td className="pv2"><button className="f6 link dim b--red bg-white ba bw1 ph3 pv2 red tr" onClick={onDeleteClick}>Delete</button></td>
     </tr>
   )
