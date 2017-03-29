@@ -6,7 +6,7 @@ import ListForm from './list-form';
 import update from 'immutability-helper';
 import {createSubscriber, destroySubscriber} from '../mutations/subscriber';
 import {showList} from '../queries/list';
-import {updateList} from '../mutations/list';
+import {updateList, destroyList} from '../mutations/list';
 
 const Subscribers = (props) => {
   const subscribersList = props.subscribers.edges.map((subscriber, key) => {
@@ -50,6 +50,17 @@ class ListEdit extends React.Component {
     });
   }
 
+  deleteList() {
+    return this.props.destroyList({
+      variables: {
+        list: {
+          id: this.props.data.list.id
+        }
+      }
+    }).then((response) => {
+      this.props.router.replace('/lists/');
+    });
+  }
   deleteSubscriber(id) {
     return this.props.destroySubscriber({
       variables: {
@@ -66,7 +77,10 @@ class ListEdit extends React.Component {
           <div className="fl w-60">
           {this.props.data.list &&
             <div>
-              <h1>{this.props.data.list.name}</h1>
+              <div className="cf">
+                <h1 className="fl">{this.props.data.list.name}</h1>
+                <button onClick={this.deleteList.bind(this)}>Delete List</button>
+              </div>
               <ListForm onSubmit={this.updateList.bind(this)} action="Update list" name={this.props.data.list.name} />
               <h2>Subscribers</h2>
               <Subscribers {...this.props.data.list} onDelete={this.deleteSubscriber.bind(this)} />
@@ -100,6 +114,9 @@ export default compose (
   }),
   graphql(updateList, {
     name: 'updateList'
+  }),
+  graphql(destroyList, {
+    name: 'destroyList'
   }),
   graphql(destroySubscriber, {
     name: 'destroySubscriber',

@@ -43,4 +43,6 @@ class Letters extends React.Component {
   }
 }
 
-export default graphql(indexLetters)(Letters);
+export default graphql(indexLetters, {
+  forceFetch: true
+})(Letters);

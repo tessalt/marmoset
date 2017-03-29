@@ -5,15 +5,16 @@ class LetterMutations
     input_field :contents, !types.String
     input_field :list_id, !types.ID
 
-    return_field :letter, LetterType
+    return_field :letters, types[LetterType]
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
       list = Schema::object_from_id(inputs[:list_id], ctx)
       if user.can_access?(list)
         letter = user.letters.create(subject: inputs[:subject], contents: inputs[:contents], list_id: list.id)
+        letters = user.letters
         {
-          letter: letter
+          letters: letters
         }
       else
         GraphQL::ExecutionError.new('insufficent permissions')

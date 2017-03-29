@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 const createLetter = gql`
   mutation createLetter($letter: CreateLetterInput!) {
     createLetter(input: $letter) {
-      letter {
+      letters {
         id,
         subject,
         contents,
