@@ -3,12 +3,15 @@ import gql from 'graphql-tag';
 const indexLetters = gql`
   query Letters {
     letters {
-      list_id,
       errors,
       id,
       subject,
       contents,
       sent,
+      list {
+        id,
+        name,
+      }
     }
   }
 `
