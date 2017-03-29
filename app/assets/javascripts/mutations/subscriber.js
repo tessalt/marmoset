@@ -6,7 +6,8 @@ const createSubscriber = gql`
       subscriber {
         id,
         email,
-        errors
+        errors,
+        confirmed
       }
     }
   }
@@ -18,7 +19,8 @@ const updateSubscriber = gql`
       subscriber {
         id,
         email,
-        errors
+        errors,
+        confirmed
       }
     }
   }
@@ -30,7 +32,8 @@ const confirmSubscriber = gql`
       subscriber {
         id,
         email,
-        errors
+        errors,
+        confirmed
       }
     }
   }

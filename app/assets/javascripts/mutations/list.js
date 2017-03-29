@@ -11,6 +11,17 @@ const createList = gql`
   }
 `
 
+const updateList = gql`
+  mutation updateList($list: UpdateListInput!) {
+    updateList(input: $list) {
+      list {
+        name,
+        id
+      }
+    }
+  }
+`
+
 const destroyList = gql`
   mutation destroyList($list: DestroyListInput!) {
     destroyList(input: $list) {
@@ -21,5 +32,6 @@ const destroyList = gql`
 
 export {
   createList,
-  destroyList
+  destroyList,
+  updateList
 }
