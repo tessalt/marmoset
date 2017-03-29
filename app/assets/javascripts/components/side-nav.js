@@ -8,6 +8,7 @@ export default function SideNav(props) {
           <Link to="/compose" className="f6 link dim bn ph3 pv2 bg-light-purple white">Compose</Link>
         </div>
         <Link to="/" className="db pv2 link">Letters</Link>
+        <Link to="/drafts" className="db pv2 link">Drafts</Link>
         <Link to="/lists" className="db pv2 link">Lists</Link>
         <Link to="/settings" className="db pv2 link black">Settings</Link>
       </div>

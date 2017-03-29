@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import { graphql, compose } from 'react-apollo';
 import LetterForm from './letter-form';
 import Errors from './errors';
+import SideNav from './side-nav';
 import { Link } from 'react-router'
 import {updateLetter, sendLetter} from '../mutations/letter';
 import {showLetter} from '../queries/letter';
@@ -53,11 +54,7 @@ class LetterEdit extends React.Component {
       <div>
         {!this.props.data.loading &&
           <div className="cf">
-            <div className="fl w-20 pa2">
-              <Link to={`/lists/${this.props.params.list_id}`} className="db pv2 link">Back</Link>
-              <Link to="/lists" className="db pv2 link">Lists</Link>
-              <Link to="/settings" className="db pv2 link black">Settings</Link>
-            </div>
+            <SideNav />
             <div className="fl w-60">
               <h2>{this.props.data.letter.subject}</h2>
               <LetterForm onSubmit={this.updateLetter.bind(this)} letter={this.props.data.letter} action="update">

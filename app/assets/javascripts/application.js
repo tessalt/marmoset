@@ -13,7 +13,8 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Compose from './components/compose';
 import Letter from './components/letter';
-import Letters from './components/letters';
+import LettersIndex from './components/letters-index';
+import Drafts from './components/drafts';
 import LetterEdit from './components/letter-edit';
 import ListEdit from './components/list-edit';
 import Settings from './components/settings';
@@ -53,11 +54,12 @@ ReactDOM.render((
   <ApolloProvider client={client} >
     <Router history={history}>
       <Route path="/" component={App}>
-        <IndexRoute component={Letters} />
+        <IndexRoute component={LettersIndex} />
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
         <Route path="settings" component={Settings} />
         <Route path="lists" component={Lists} />
+        <Route path="drafts" component={Drafts} />
         <Route path="lists/new" component={ListNew} />
         <Route path="lists/:id" component={List}/>
         <Route path="lists/:id/edit" component={ListEdit}/>
