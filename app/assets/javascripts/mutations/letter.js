@@ -41,8 +41,24 @@ const sendLetter = gql`
   }
 `;
 
+const destroyLetter = gql`
+  mutation destroyLetter($letter: DestroyLetterInput!) {
+    destroyLetter(input: $letter) {
+      letters {
+        id,
+        sent,
+        subject,
+        contents,
+        errors
+      }
+    }
+  }
+
+`
+
 export {
   createLetter,
   updateLetter,
   sendLetter,
+  destroyLetter,
 }

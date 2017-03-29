@@ -4,7 +4,7 @@ import LetterForm from './letter-form';
 import Errors from './errors';
 import SideNav from './side-nav';
 import { Link } from 'react-router'
-import {updateLetter, sendLetter} from '../mutations/letter';
+import {updateLetter, sendLetter, destroyLetter} from '../mutations/letter';
 import {showLetter} from '../queries/letter';
 
 class LetterEdit extends React.Component {
@@ -13,6 +13,18 @@ class LetterEdit extends React.Component {
     this.state = {
       message: ''
     }
+  }
+
+  deleteLetter() {
+    this.props.destroyLetter({
+      variables: {
+        letter: {
+          id: this.props.params.id
+        }
+      }
+    }).then((response) => {
+      this.props.router.replace('/drafts');
+    });
   }
 
   updateLetter(letter) {
@@ -56,7 +68,10 @@ class LetterEdit extends React.Component {
           <div className="cf">
             <SideNav />
             <div className="fl w-60">
-              <h2>{this.props.data.letter.subject}</h2>
+              <div className="cf">
+                <h2 className="fl">{this.props.data.letter.subject}</h2>
+                <button className="fr" onClick={this.deleteLetter.bind(this)}>Delete</button>
+              </div>
               <LetterForm onSubmit={this.updateLetter.bind(this)} letter={this.props.data.letter} action="update">
                 <button className="f6 link dim bn ph3 pv2 bg-black-70 white fr" onClick={this.send.bind(this)} type="button">Send</button>
               </LetterForm>
@@ -82,12 +97,12 @@ LetterEdit.propTypes = {
 export default compose(
   graphql(updateLetter, {name: 'updateLetter'}),
   graphql(sendLetter, {name: 'sendLetter'}),
+  graphql(destroyLetter, {name: 'destroyLetter'}),
   graphql(showLetter, {
     options: ({params}) => {
       return {
         variables: {
           letter: params.id,
-          list: params.list_id
         }
       }
     }

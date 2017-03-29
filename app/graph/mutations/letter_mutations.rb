@@ -55,7 +55,7 @@ class LetterMutations
     name "DestroyLetter"
     input_field :id, !types.ID
 
-    return_field :user, UserType
+    return_field :letters, types[LetterType]
 
     resolve -> (object, inputs, ctx) {
       user = ctx[:current_user]
@@ -64,7 +64,7 @@ class LetterMutations
         letter.destroy
 
         {
-          user: user
+          letters: user.letters
         }
       else
         GraphQL::ExecutionError.new('insufficent permissions')
