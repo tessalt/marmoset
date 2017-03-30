@@ -17,6 +17,6 @@ module Marmoset
     GraphiQL::Rails.config.headers['Authorization'] = -> (context) {
       "Bearer #{context.cookies['_graphql_token']}"
     }
-    config.assets.precompile += %w(public.js)
+    config.assets.paths << Rails.root.join('node_modules')
   end
 end

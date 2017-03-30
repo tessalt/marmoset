@@ -7,7 +7,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.1'
+gem 'rails', '~> 5.1.0.rc1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
@@ -43,7 +43,9 @@ gem 'pry'
 gem 'graphql'
 gem "graphiql-rails"
 # Use Capistrano for deployment
-gem 'sprockets-commoner'
+
+gem 'webpacker', github: 'rails/webpacker'
+
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
