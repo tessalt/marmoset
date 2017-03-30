@@ -23,5 +23,7 @@ class Drafts extends React.Component {
 }
 
 export default graphql(indexLetters, {
-  forceFetch: true
+  options: props => ({
+    forceFetch: true,
+  })
 })(Drafts);

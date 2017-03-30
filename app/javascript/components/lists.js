@@ -56,58 +56,7 @@ Lists.propTypes = {
 }
 
 export default graphql(indexLists, {
-  forceFetch: true
+  options: props => ({
+    forceFetch: true,
+  })
 })(Lists);
-
-// export default compose(
-//   graphql(indexLists, {
-//     forceFetch: true
-//   }),
-//   graphql(destroyList, {
-//     name: 'destroyList',
-//     props: ({ownProps, destroyList}) => {
-//       return {
-//         destroyList: (props) => {
-//           return destroyList({
-//             variables: props.variables,
-//             updateQueries: {
-//               Lists: (prev, {mutationResult}) => {
-//                 const id = mutationResult.data.destroyList.id;
-//                 const index = prev.lists.findIndex((edge) => {
-//                   return edge.id === id;
-//                 });
-//                 return update(prev, {
-//                   lists: {
-//                     $splice: [[index, 1]]
-//                   }
-//                 });
-//               }
-//             }
-//           })
-//         }
-//       }
-//     }
-//   }),
-//   graphql(createList, {
-//     name: 'createList',
-//     props: ({ownProps, createList}) => {
-//       return {
-//         createList: (props) => {
-//           return createList({
-//             variables: props.variables,
-//             updateQueries: {
-//               Lists: (prev, {mutationResult}) => {
-//                 const newList = mutationResult.data.createList.list;
-//                 return update(prev, {
-//                   lists: {
-//                     $push: [newList]
-//                   }
-//                 });
-//               }
-//             }
-//           })
-//         }
-//       }
-//     }
-//   }),
-// )(Lists)
