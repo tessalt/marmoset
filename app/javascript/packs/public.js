@@ -4,10 +4,10 @@ import ApolloClient, {createNetworkInterface} from 'apollo-client';
 import {ApolloProvider, graphql} from 'react-apollo';
 import { Router, Route, Link, browserHistory, useRouterHistory } from 'react-router';
 import { createHistory } from 'history';
-import Public from './components/public/index';
-import Subscribe from './components/public/subscribe';
-import Confirm from './components/public/confirm';
-import Unsubscribe from './components/public/unsubscribe';
+import Public from '../components/public/index';
+import Subscribe from '../components/public/subscribe';
+import Confirm from '../components/public/confirm';
+import Unsubscribe from '../components/public/unsubscribe';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',

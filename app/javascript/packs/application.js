@@ -5,19 +5,19 @@ import {ApolloProvider, graphql} from 'react-apollo';
 import { Router, Route, Link, browserHistory, useRouterHistory, IndexRoute } from 'react-router'
 import { createHistory } from 'history'
 
-import Lists from './components/lists';
-import List from './components/list';
-import ListNew from './components/list-new';
-import App from './components/app';
-import Login from './components/login';
-import Signup from './components/signup';
-import Compose from './components/compose';
-import Letter from './components/letter';
-import LettersIndex from './components/letters-index';
-import Drafts from './components/drafts';
-import LetterEdit from './components/letter-edit';
-import ListEdit from './components/list-edit';
-import Settings from './components/settings';
+import Lists from '../components/lists';
+import List from '../components/list';
+import ListNew from '../components/list-new';
+import App from '../components/app';
+import Login from '../components/login';
+import Signup from '../components/signup';
+import Compose from '../components/compose';
+import Letter from '../components/letter';
+import LettersIndex from '../components/letters-index';
+import Drafts from '../components/drafts';
+import LetterEdit from '../components/letter-edit';
+import ListEdit from '../components/list-edit';
+import Settings from '../components/settings';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
